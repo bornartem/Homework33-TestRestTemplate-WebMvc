@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Student {
     @Id
-//    @GeneratedValue
+    @GeneratedValue
     private long id;
     private String name;
     private int age;
