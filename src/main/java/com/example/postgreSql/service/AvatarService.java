@@ -7,8 +7,8 @@ import com.example.postgreSql.repositories.AvatarRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResizableByteArrayOutputStream;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
@@ -17,6 +17,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
@@ -84,4 +85,9 @@ public class AvatarService {
     public String getExtension(String fileName) {
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
+
+   public List<Avatar> getAllAvatars(Integer num, Integer size){
+        PageRequest pageRequest = PageRequest.of(num-1, size);
+        return avatarRepository.findAll(pageRequest).getContent();
+   }
 }
