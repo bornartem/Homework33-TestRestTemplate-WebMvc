@@ -198,5 +198,4 @@ public class FacultyControllerWebMvcTest {
                 .andExpect(jsonPath("$[0].age").value(1));
     }
 
-
 }

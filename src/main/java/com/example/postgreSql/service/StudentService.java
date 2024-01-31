@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class StudentService {
@@ -39,11 +40,23 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
+
     public Collection<Student> findStudentByAgeBetween(int age, int age1) {
         return studentRepository.findStudentByAgeBetween(age, age1);
     }
 
     public Faculty findFacultyByStudent(long id) {
         return studentRepository.getReferenceById(id).getFaculty();
+    }
+
+    public int findCountAllStudents() {
+        return studentRepository.getCountStudents();
+    }
+
+    public double getAverageAge() {
+        return studentRepository.getAverageAge();
+    }
+    public List<Student> getLastStudents (){
+        return studentRepository.getLastStudents();
     }
 }

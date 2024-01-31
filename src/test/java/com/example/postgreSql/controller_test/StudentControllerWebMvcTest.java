@@ -201,4 +201,16 @@ public class StudentControllerWebMvcTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1L));
     }
+
+    @Test
+    void findCountAllStudents() throws Exception {
+        Student student = new Student(1L, "Test", 1, null);
+        Student student1 = new Student(2L, "Test2", 2, null);
+        Integer count = 2;
+        when(studentRepository.save(any(Student.class))).thenReturn(student, student1);
+        when(studentRepository.getCountStudents()).thenReturn(count);
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/student/count"))
+                .andExpect(status().isOk());
+    }
 }
