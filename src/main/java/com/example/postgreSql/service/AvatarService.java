@@ -7,6 +7,7 @@ import com.example.postgreSql.repositories.AvatarRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +18,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -86,8 +88,13 @@ public class AvatarService {
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
-   public List<Avatar> getAllAvatars(Integer num, Integer size){
-        PageRequest pageRequest = PageRequest.of(num-1, size);
-        return avatarRepository.findAll(pageRequest).getContent();
-   }
+    public List<Avatar> getAllAvatars(Integer num, Integer size) {
+        PageRequest pageRequest = PageRequest.of(num - 1, size);
+        Page<Avatar> pagedResult = avatarRepository.findAll(pageRequest);
+        if (pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<Avatar>();
+        }
+    }
 }

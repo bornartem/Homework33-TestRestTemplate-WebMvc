@@ -211,6 +211,8 @@ public class StudentControllerWebMvcTest {
         when(studentRepository.getCountStudents()).thenReturn(count);
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/student/count"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value(count));
     }
+
 }
