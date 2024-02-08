@@ -1,5 +1,6 @@
 package com.example.postgreSql.controller;
 
+import com.example.postgreSql.dto.FullFacultyDTO;
 import com.example.postgreSql.model.Faculty;
 import com.example.postgreSql.model.Student;
 import com.example.postgreSql.service.FacultyService;
@@ -60,5 +61,9 @@ public class FacultyController {
     @GetMapping("/findByStudent{id}")
     public ResponseEntity<Collection<Student>> findStudentByFaculty(@PathVariable long id) {
         return ResponseEntity.ok(facultyService.findStudentByFaculty(id));
+    }
+    @GetMapping("/fullFacultyDTO")
+    public FullFacultyDTO facultyDTO(@RequestParam Long Id){
+        return facultyService.fullfacultyDTO(Id);
     }
 }

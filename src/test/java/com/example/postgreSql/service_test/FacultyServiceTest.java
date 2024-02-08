@@ -1,4 +1,4 @@
-package com.example.postgreSql;
+package com.example.postgreSql.service_test;
 
 import com.example.postgreSql.model.Faculty;
 import com.example.postgreSql.repositories.FacultyRepository;

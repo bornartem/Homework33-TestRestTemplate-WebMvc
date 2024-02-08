@@ -1,5 +1,6 @@
 package com.example.postgreSql.service;
 
+import com.example.postgreSql.dto.FullFacultyDTO;
 import com.example.postgreSql.model.Faculty;
 import com.example.postgreSql.model.Student;
 import com.example.postgreSql.repositories.FacultyRepository;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class FacultyService {
@@ -43,5 +45,13 @@ public class FacultyService {
 
     public Collection<Student> findStudentByFaculty(long id) {
         return facultyRepository.getReferenceById(id).getStudents();
+    }
+
+    public FullFacultyDTO fullfacultyDTO(Long facultyId){
+        Optional<Faculty> byId = facultyRepository.findById(facultyId);
+        return byId
+                .map(faculty -> FullFacultyDTO.from(faculty))
+                .orElse(null);
+
     }
 }
