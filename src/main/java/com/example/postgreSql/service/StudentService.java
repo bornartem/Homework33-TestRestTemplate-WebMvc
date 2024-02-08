@@ -1,6 +1,7 @@
 package com.example.postgreSql.service;
 
 
+import com.example.postgreSql.dto.FullStudentDTO;
 import com.example.postgreSql.model.Faculty;
 import com.example.postgreSql.model.Student;
 import com.example.postgreSql.repositories.StudentRepository;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentService {
@@ -56,7 +58,15 @@ public class StudentService {
     public double getAverageAge() {
         return studentRepository.getAverageAge();
     }
-    public List<Student> getLastStudents (){
+
+    public List<Student> getLastStudents() {
         return studentRepository.getLastStudents();
+    }
+
+    public FullStudentDTO fullStudent(Long studentId) {
+        Optional<Student> byId = studentRepository.findById(studentId);
+        return byId
+                .map(student -> FullStudentDTO.from(student))
+                .orElse(null);
     }
 }

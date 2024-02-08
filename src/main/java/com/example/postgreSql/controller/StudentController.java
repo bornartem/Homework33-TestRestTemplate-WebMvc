@@ -1,5 +1,6 @@
 package com.example.postgreSql.controller;
 
+import com.example.postgreSql.dto.FullStudentDTO;
 import com.example.postgreSql.model.Faculty;
 import com.example.postgreSql.model.Student;
 import com.example.postgreSql.service.StudentService;
@@ -65,16 +66,24 @@ public class StudentController {
     public ResponseEntity<Faculty> findFacultyByStudentID(@PathVariable long id) {
         return ResponseEntity.ok(studentService.findFacultyByStudent(id));
     }
+
     @GetMapping("/count")
-    public ResponseEntity<Integer> findCountAllStudents(){
+    public ResponseEntity<Integer> findCountAllStudents() {
         return ResponseEntity.ok(studentService.findCountAllStudents());
     }
+
     @GetMapping("/avg-age")
-    public ResponseEntity<Double> getAverageAge(){
+    public ResponseEntity<Double> getAverageAge() {
         return ResponseEntity.ok(studentService.getAverageAge());
     }
+
     @GetMapping("/last-five")
-    public ResponseEntity<List<Student>> getLastStudents(){
+    public ResponseEntity<List<Student>> getLastStudents() {
         return ResponseEntity.ok(studentService.getLastStudents());
+    }
+
+    @GetMapping("/fullDTO")
+    public FullStudentDTO fullDTO(@RequestParam(required = false) Long id) {
+        return studentService.fullStudent(id);
     }
 }

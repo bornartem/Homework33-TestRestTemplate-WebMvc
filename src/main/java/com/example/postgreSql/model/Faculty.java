@@ -26,5 +26,4 @@ public class Faculty {
     @OneToMany(mappedBy = "faculty")
     @JsonManagedReference
     private Collection<Student> students;
-
 }
