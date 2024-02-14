@@ -62,8 +62,14 @@ public class FacultyController {
     public ResponseEntity<Collection<Student>> findStudentByFaculty(@PathVariable long id) {
         return ResponseEntity.ok(facultyService.findStudentByFaculty(id));
     }
+
     @GetMapping("/fullFacultyDTO")
-    public FullFacultyDTO facultyDTO(@RequestParam Long Id){
-        return facultyService.fullfacultyDTO(Id);
+    public FullFacultyDTO facultyDTO(@RequestParam Long Id) {
+        return facultyService.fullFacultyDTO(Id);
+    }
+
+    @GetMapping("/longestName")
+    public String getMostLengthOfFaculty() {
+        return facultyService.getMostLengthOfFaculty();
     }
 }

@@ -12,9 +12,9 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class StudentService {
@@ -111,5 +111,25 @@ public class StudentService {
         return byId
                 .map(student -> FullStudentDTO.from(student))
                 .orElse(null);
+    }
+
+    public Collection<Student> getAllStudentsNames() {
+        return studentRepository.findAll().parallelStream()
+                .filter(student -> student.getName().toUpperCase().startsWith("A"))
+                .collect(Collectors.toList());
+    }
+
+    public double getAvgAgeByStream() {
+        return studentRepository.findAll()
+                .parallelStream()
+                .collect(Collectors.averagingInt(Student::getAge));
+    }
+
+    public boolean checkAvgAge() {
+        if (getAverageAge() == getAvgAgeByStream()) {
+            return true;
+        } else {
+            throw new RuntimeException();
+        }
     }
 }

@@ -4,6 +4,7 @@ import com.example.postgreSql.dto.FullStudentDTO;
 import com.example.postgreSql.model.Faculty;
 import com.example.postgreSql.model.Student;
 import com.example.postgreSql.service.StudentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
@@ -12,12 +13,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("student")
 public class StudentController {
-    private final StudentService studentService;
+    private StudentService studentService;
 
+    @Autowired
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
     }
@@ -85,5 +88,29 @@ public class StudentController {
     @GetMapping("/fullDTO")
     public FullStudentDTO fullDTO(@RequestParam(required = false) Long id) {
         return studentService.fullStudent(id);
+    }
+
+    @GetMapping("/getNames")
+    public ResponseEntity<Collection<Student>> getNames() {
+        return ResponseEntity.ok(studentService.getAllStudentsNames());
+    }
+
+    @GetMapping("/avgAgeByStream")
+    public ResponseEntity<Double> getAvgAgeByStream() {
+        return ResponseEntity.ok(studentService.getAvgAgeByStream());
+    }
+
+    @GetMapping("/checkAvgAge")
+    ResponseEntity<Boolean> checkAvgAge() {
+        return ResponseEntity.ok(studentService.checkAvgAge());
+    }
+
+    @GetMapping("/return-test-integer")
+    public int testInteger() {
+        int sum = Stream.iterate(1, a -> a + 1)
+                .limit(1_000_000)
+                .reduce(0, (a, b) -> a + b);
+
+        return sum;
     }
 }

@@ -10,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Collection;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class FacultyService {
@@ -73,6 +72,14 @@ public class FacultyService {
         return byId
                 .map(faculty -> FullFacultyDTO.from(faculty))
                 .orElse(null);
+    }
 
+    public String getMostLengthOfFaculty() {
+        logger.info("Was invoked method for getMostLengthOfFaculty");
+        return facultyRepository.findAll()
+                .parallelStream()
+                .map(Faculty::getName)
+                .max(Comparator.comparing(String::length))
+                .get();
     }
 }
