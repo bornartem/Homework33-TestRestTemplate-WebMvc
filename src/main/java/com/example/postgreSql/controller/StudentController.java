@@ -91,7 +91,7 @@ public class StudentController {
     }
 
     @GetMapping("/getNames")
-    public ResponseEntity<Collection<Student>> getNames() {
+    public ResponseEntity<Collection<String>> getNames() {
         return ResponseEntity.ok(studentService.getAllStudentsNames());
     }
 
@@ -107,10 +107,6 @@ public class StudentController {
 
     @GetMapping("/return-test-integer")
     public int testInteger() {
-        int sum = Stream.iterate(1, a -> a + 1)
-                .limit(1_000_000)
-                .reduce(0, (a, b) -> a + b);
-
-        return sum;
+        return studentService.testInteger();
     }
 }

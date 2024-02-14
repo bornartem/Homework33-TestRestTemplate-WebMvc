@@ -113,9 +113,12 @@ public class StudentService {
                 .orElse(null);
     }
 
-    public Collection<Student> getAllStudentsNames() {
-        return studentRepository.findAll().parallelStream()
-                .filter(student -> student.getName().toUpperCase().startsWith("A"))
+    public Collection<String> getAllStudentsNames() {
+        return studentRepository.findAll()
+                .stream()
+                .map(student -> student.getName().toUpperCase())
+                .filter(s -> s.startsWith("A"))
+                .sorted()
                 .collect(Collectors.toList());
     }
 
@@ -131,5 +134,13 @@ public class StudentService {
         } else {
             throw new RuntimeException();
         }
+    }
+
+    public int testInteger() {
+        int sum = Stream.iterate(1, a -> a + 1)
+                .limit(1_000_000)
+                .reduce(0, (a, b) -> a + b);
+
+        return sum;
     }
 }
