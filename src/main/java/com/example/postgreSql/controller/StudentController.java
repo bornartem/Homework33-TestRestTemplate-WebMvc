@@ -1,8 +1,10 @@
 package com.example.postgreSql.controller;
 
+import com.example.postgreSql.dto.FullStudentDTO;
 import com.example.postgreSql.model.Faculty;
 import com.example.postgreSql.model.Student;
 import com.example.postgreSql.service.StudentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
@@ -10,12 +12,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("student")
 public class StudentController {
-    private final StudentService studentService;
+    private StudentService studentService;
 
+    @Autowired
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
     }
@@ -63,5 +68,45 @@ public class StudentController {
     @GetMapping("/findByFaculty{id}")
     public ResponseEntity<Faculty> findFacultyByStudentID(@PathVariable long id) {
         return ResponseEntity.ok(studentService.findFacultyByStudent(id));
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Integer> findCountAllStudents() {
+        return ResponseEntity.ok(studentService.findCountAllStudents());
+    }
+
+    @GetMapping("/avg-age")
+    public ResponseEntity<Double> getAverageAge() {
+        return ResponseEntity.ok(studentService.getAverageAge());
+    }
+
+    @GetMapping("/last-five")
+    public ResponseEntity<List<Student>> getLastStudents() {
+        return ResponseEntity.ok(studentService.getLastStudents());
+    }
+
+    @GetMapping("/fullDTO")
+    public FullStudentDTO fullDTO(@RequestParam(required = false) Long id) {
+        return studentService.fullStudent(id);
+    }
+
+    @GetMapping("/getNames")
+    public ResponseEntity<Collection<String>> getNames() {
+        return ResponseEntity.ok(studentService.getAllStudentsNames());
+    }
+
+    @GetMapping("/avgAgeByStream")
+    public ResponseEntity<Double> getAvgAgeByStream() {
+        return ResponseEntity.ok(studentService.getAvgAgeByStream());
+    }
+
+    @GetMapping("/checkAvgAge")
+    ResponseEntity<Boolean> checkAvgAge() {
+        return ResponseEntity.ok(studentService.checkAvgAge());
+    }
+
+    @GetMapping("/return-test-integer")
+    public int testInteger() {
+        return studentService.testInteger();
     }
 }

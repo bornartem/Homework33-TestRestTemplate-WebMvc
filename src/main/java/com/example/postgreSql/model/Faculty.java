@@ -18,7 +18,7 @@ import java.util.Collection;
 @JsonIgnoreProperties(value = {"students"})
 public class Faculty {
     @Id
-//    @GeneratedValue
+    @GeneratedValue
     private long id;
     private String name;
     private String color;
@@ -26,5 +26,4 @@ public class Faculty {
     @OneToMany(mappedBy = "faculty")
     @JsonManagedReference
     private Collection<Student> students;
-
 }
