@@ -109,4 +109,13 @@ public class StudentController {
     public int testInteger() {
         return studentService.testInteger();
     }
+
+    @GetMapping("/print-parallel")
+    public void printParallel() {
+        studentService.printParallel();
+    }
+    @GetMapping("/print-synchronized")
+    public void printSynchronized(){
+        studentService.printSynchronized();
+    }
 }

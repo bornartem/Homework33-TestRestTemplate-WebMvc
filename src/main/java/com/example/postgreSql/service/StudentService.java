@@ -5,10 +5,10 @@ import com.example.postgreSql.dto.FullStudentDTO;
 import com.example.postgreSql.model.Faculty;
 import com.example.postgreSql.model.Student;
 import com.example.postgreSql.repositories.StudentRepository;
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
+@NoArgsConstructor
 public class StudentService {
     private StudentRepository studentRepository;
     private RestTemplate restTemplate;
@@ -142,5 +143,46 @@ public class StudentService {
                 .reduce(0, (a, b) -> a + b);
 
         return sum;
+    }
+
+    public List<String> getNamesStudentForThread() {
+        return studentRepository.findAll()
+                .stream()
+                .map(Student::getName)
+                .collect(Collectors.toList());
+    }
+
+    public synchronized List<String> synchronizedNamesStudentForThread() {
+        List<String> studentsList1 = getNamesStudentForThread();
+        return studentsList1;
+    }
+
+    public void printParallel() {
+        List<String> studentsList = getNamesStudentForThread();
+        System.out.println(studentsList.get(0));
+        System.out.println(studentsList.get(1));
+        new Thread(() -> {
+            System.out.println(studentsList.get(2));
+            System.out.println(studentsList.get(3));
+        }).start();
+        new Thread(() -> {
+            System.out.println(studentsList.get(4));
+            System.out.println(studentsList.get(5));
+        }).start();
+    }
+
+    public synchronized void printSynchronized() {
+        List<String> synchronizedList = synchronizedNamesStudentForThread();
+
+        System.out.println(synchronizedList.get(0));
+        System.out.println(synchronizedList.get(1));
+        new Thread(() -> {
+            System.out.println(synchronizedList.get(2));
+            System.out.println(synchronizedList.get(3));
+        }).start();
+        new Thread(() -> {
+            System.out.println(synchronizedList.get(4));
+            System.out.println(synchronizedList.get(5));
+        }).start();
     }
 }
